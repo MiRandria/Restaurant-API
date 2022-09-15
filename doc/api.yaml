@@ -1,0 +1,271 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: rersto.com
+info:
+  version: "1.0.0"
+  title: Restaurant API
+
+paths:
+  /categories:
+    get:
+      tags:
+        - Category
+      description: "List of all category"
+      summary: "List of all category"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+    post:
+      tags:
+        - Category
+      description: "Add new meal"
+      summary: "Add new meal"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meal'
+      responses:
+        "200":
+          description: "Meal created successfully"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+  /categories/{id}:
+    get:
+      tags:
+        - Category
+      description: "Get category by Id"
+      parameters:
+        - name: id_category
+          in: path
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /meals:
+    get:
+      tags:
+        - Meal
+      description: "List of all meals"
+      summary: "List of all meals"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+    post:
+      tags:
+        - Meal
+      description: "Add new meal"
+      summary: "Add new meal"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Meal'
+      responses:
+        "200":
+          description: "Meal created successfully"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+  /meals/{id}:
+    get:
+      tags:
+        - Meal
+      description: "Get meal by Id"
+      parameters:
+        - name: id_meal
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+  /meals/categories/{id_category}:
+     get:
+      tags:
+        - Meal
+      description: "Get meal by category's Id"
+      parameters:
+        - name: id_category
+          in: path
+          required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Meal'
+
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+
+  /orders:
+    get:
+      tags:
+        - Order
+      description: "Get the list of all orders"
+      parameters:
+        - name: page
+          in: query
+          schema:
+            $ref: "#/components/schemas/Page"
+        - name: pageSize
+          in: query
+          schema:
+            $ref: "#/components/schemas/PageSize"
+      responses:
+        "200":
+          description: "List of all orders"
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Orders'
+    post:
+      tags:
+        - Order
+      description: Create new order
+      summary: Create new order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/NewOrder'
+      responses:
+        200:
+          description: 'Order created successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Orders'
+        "400":
+          description: Bad Request
+        "405":
+          description: Invalid input
+    
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id_category:
+          type: integer
+        name_category:
+          type: string
+    Meal:
+      type: object
+      properties:
+        id_meal:
+          type: integer
+        name:
+          type: string
+        unit_price:
+          type: number
+          format: double
+        category:
+          $ref: '#/components/schemas/Category'         
+    Order:
+      type: object
+      properties:
+        id_order:
+          type: integer
+        lastName:
+          type: string
+        firstName:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        deliveredDate:
+          type: string
+          format: date-time
+    Orders:
+      type: array
+      items:
+        $ref: '#/components/schemas/Order'
+    NewOrder:
+      type: object
+      properties:
+        lastName:
+          type: string
+        firstName:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        deliveredDate:
+          type: string
+          format: date-time
+    Page:
+      type: integer
+      description: start at 1
+    PageSize:
+      type: integer
+      description: cannot exceed 50
